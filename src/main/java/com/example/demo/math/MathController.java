@@ -1,5 +1,6 @@
 package com.example.demo.math;
 
+import com.example.demo.model.Dimensions;
 import com.example.demo.service.MathService;
 import com.example.demo.model.ArithmeticOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class MathController {
     @PostMapping("/sum")
     public String sum(@RequestParam("n") List<String> values) {
         return mathService.sum(values);
+    }
+
+    @RequestMapping("/volume/{length}/{width}/{height}")
+    public String volume(Dimensions dimensions) {
+        return mathService.volume(dimensions);
     }
 }

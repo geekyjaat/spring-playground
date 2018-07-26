@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.ArithmeticOperation;
+import com.example.demo.model.Dimensions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,5 +63,19 @@ public class MathServiceTests {
     @Test
     public void test_sum() throws Exception {
         assertTrue("Sum is not working fine", mathService.sum(Arrays.asList("4", "5", "6")).equals("4 + 5 + 6 = 15"));
+    }
+
+    @Test
+    public void test_volume() throws Exception {
+        Dimensions dimensions = new Dimensions();
+        dimensions.setLength(6);
+        dimensions.setWidth(7);
+        dimensions.setHeight(8);
+        assertTrue("Volume is not working fine", mathService.volume(dimensions).equals("The volume of a 6x7x8 rectangle is 336"));
+
+        dimensions.setLength(3);
+        dimensions.setWidth(4);
+        dimensions.setHeight(5);
+        assertTrue("Volume is not working fine", mathService.volume(dimensions).equals("The volume of a 3x4x5 rectangle is 60"));
     }
 }

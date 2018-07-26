@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.ArithmeticOperation;
+import com.example.demo.model.Dimensions;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +45,12 @@ public class MathService {
 
         String lhs = String.join(" + ", values);
         return lhs + " = " + sum;
+    }
+
+    public String volume(Dimensions dimensions) {
+        int volume = dimensions.getLength() * dimensions.getWidth() * dimensions.getHeight();
+
+        return String.format("The volume of a %dx%dx%d rectangle is %d",
+                dimensions.getLength(), dimensions.getWidth(), dimensions.getHeight(), volume);
     }
 }
