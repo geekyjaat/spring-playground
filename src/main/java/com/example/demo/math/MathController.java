@@ -1,8 +1,9 @@
 package com.example.demo.math;
 
+import com.example.demo.model.AreaRequest;
+import com.example.demo.model.ArithmeticOperation;
 import com.example.demo.model.Dimensions;
 import com.example.demo.service.MathService;
-import com.example.demo.model.ArithmeticOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,5 +34,10 @@ public class MathController {
     @RequestMapping("/volume/{length}/{width}/{height}")
     public String volume(Dimensions dimensions) {
         return mathService.volume(dimensions);
+    }
+
+    @RequestMapping("/area")
+    public String volume(AreaRequest areaRequest) {
+        return mathService.area(areaRequest);
     }
 }

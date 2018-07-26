@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.AreaRequest;
 import com.example.demo.model.ArithmeticOperation;
 import com.example.demo.model.Dimensions;
 import org.junit.BeforeClass;
@@ -77,5 +78,20 @@ public class MathServiceTests {
         dimensions.setWidth(4);
         dimensions.setHeight(5);
         assertTrue("Volume is not working fine", mathService.volume(dimensions).equals("The volume of a 3x4x5 rectangle is 60"));
+    }
+
+    @Test
+    public void test_area_circle() throws Exception {
+        assertTrue("Circle Area is not working fine", mathService.area(new AreaRequest("circle", "4", null, null)).equals("Area of a circle with a radius of 4 is 50.26548"));
+    }
+
+    @Test
+    public void test_area_rectangle() throws Exception {
+        assertTrue("Rectangle Area is not working fine", mathService.area(new AreaRequest("rectangle", null, "4", "7")).equals("Area of a 4x7 rectangle is 28"));
+    }
+
+    @Test
+    public void test_area_invalid() throws Exception {
+        assertTrue("Invalid Area is not working fine", mathService.area(new AreaRequest("circle", null, "4", null)).equals("Invalid"));
     }
 }

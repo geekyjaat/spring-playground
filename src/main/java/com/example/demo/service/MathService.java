@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.AreaRequest;
 import com.example.demo.model.ArithmeticOperation;
 import com.example.demo.model.Dimensions;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,38 @@ public class MathService {
 
         return String.format("The volume of a %dx%dx%d rectangle is %d",
                 dimensions.getLength(), dimensions.getWidth(), dimensions.getHeight(), volume);
+    }
+
+    public String area(AreaRequest areaRequest) {
+        if (areaRequest != null) {
+            if (areaRequest.getType() != null) {
+                switch (areaRequest.getType()) {
+                    case "circle":
+                        if (areaRequest.getRadius() != null && !areaRequest.getRadius().isEmpty()) {
+                            return String.format(
+                                    "Area of a circle with a radius of %s is %7.5f",
+                                    areaRequest.getRadius(),
+                                    3.141592653589793 * Math.pow(Double.parseDouble(areaRequest.getRadius()), 2)
+                            );
+                        }
+                        break;
+
+                    case "rectangle":
+                        if (areaRequest.getWidth() != null
+                                && areaRequest.getHeight() != null
+                                && !areaRequest.getWidth().isEmpty()
+                                && !areaRequest.getHeight().isEmpty()) {
+                            return String.format(
+                                    "Area of a %sx%s rectangle is %d",
+                                    areaRequest.getWidth(),
+                                    areaRequest.getHeight(),
+                                    Integer.parseInt(areaRequest.getWidth()) * Integer.parseInt(areaRequest.getHeight())
+                            );
+                        }
+                        break;
+                }
+            }
+        }
+        return "Invalid";
     }
 }
