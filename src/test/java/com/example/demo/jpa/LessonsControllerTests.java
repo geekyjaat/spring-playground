@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,7 +56,7 @@ public class LessonsControllerTests {
         lesson = repository.save(lesson);
 
         this.mvc.perform(
-                get(String.format("/lessons/%d", lesson.getId()))
+                get(String.format("/lessons/%d", lesson.getId().intValue()))
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(lesson.getId().intValue())))
@@ -79,5 +78,32 @@ public class LessonsControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", equalTo(lesson.getId().intValue())))
                 .andExpect(jsonPath("$[0].title", equalTo(lesson.getTitle())));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testPatch() throws Exception {
+        Lesson lesson = new Lesson();
+        lesson.setTitle("Blah");
+        lesson = repository.save(lesson);
+
+        this.mvc.perform(
+                patch(String.format("/lessons/%d", lesson.getId().intValue()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": \"Spring Security\", \"deliveredOn\": \"2017-04-12\"}")
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(lesson.getId().intValue())))
+                .andExpect(jsonPath("$.title", equalTo("Spring Security")))
+                .andExpect(jsonPath("$.deliveredOn", equalTo("2017-04-12")));
+
+
+        this.mvc.perform(
+                patch(String.format("/lessons/%d", 1000))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": \"SQL\"}")
+        )
+                .andExpect(status().isNotFound());
     }
 }

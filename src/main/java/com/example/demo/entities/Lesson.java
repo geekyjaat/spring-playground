@@ -1,8 +1,8 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,13 +14,15 @@ public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.AllView.class)
     private Long id;
+    @JsonView(Views.AllView.class)
     private String title;
 
 
     @Column(columnDefinition = "date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @JsonIgnore
+    @JsonView(Views.PatchView.class)
     private Date deliveredOn;
 
     public Long getId() {
