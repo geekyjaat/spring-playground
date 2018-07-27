@@ -14,15 +14,15 @@ public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.AllView.class)
+    @JsonView(Views.CompactView.class)
     private Long id;
-    @JsonView(Views.AllView.class)
+    @JsonView(Views.CompactView.class)
     private String title;
 
 
     @Column(columnDefinition = "date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @JsonView(Views.PatchView.class)
+    @JsonView(Views.AllView.class)
     private Date deliveredOn;
 
     public Long getId() {
