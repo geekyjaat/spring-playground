@@ -1,12 +1,15 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "lessons")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Lesson {
 
     @Id
@@ -17,6 +20,7 @@ public class Lesson {
 
     @Column(columnDefinition = "date")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonIgnore
     private Date deliveredOn;
 
     public Long getId() {
