@@ -1,5 +1,6 @@
 package com.example.demo.text;
 
+import com.example.demo.config.WordCountConfig;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest({WordCounterController.class, WordCounter.class})
+@WebMvcTest({WordCounterController.class, WordCounter.class, WordCountConfig.class})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WordCounterControllerTests {
 
@@ -32,7 +33,7 @@ public class WordCounterControllerTests {
                         .content("A brown cow jumps over a brown fox")
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", is(7)))
+                .andExpect(jsonPath("$.length()", is(5)))
                 .andExpect(jsonPath("$.brown", is(2)));
     }
 
@@ -47,5 +48,18 @@ public class WordCounterControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(4)))
                 .andExpect(jsonPath("$.brown", is(1)));
+    }
+
+    @Test
+    public void testCountWithPunchCase() throws Exception {
+
+        this.mvc.perform(
+                post("/words/count")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("The BROWN cow jumps over a brown fox")
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(5)))
+                .andExpect(jsonPath("$.brown", is(2)));
     }
 }
