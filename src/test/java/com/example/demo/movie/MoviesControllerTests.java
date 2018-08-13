@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest({MovieController.class, Movies.class, OmdbConfig.class})
 @TestPropertySource(properties = {
         "omdb.host=http://www.omdbapi.com/?apikey=",
-        "omdb.apiKey=24c86e61"
+        "omdb.apiKey=121212"
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MoviesControllerTests {
@@ -52,7 +52,7 @@ public class MoviesControllerTests {
     }
 
     @Test
-    public void testCounter() throws Exception {
+    public void testResponse() throws Exception {
         this.mvc.perform(
                 get("/movies?q=harry")
         )
