@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "omdb.apiKey=121212"
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@AutoConfigureMockMvc(secure = false)
 public class MoviesControllerTests {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -54,7 +56,7 @@ public class MoviesControllerTests {
     @Test
     public void testResponse() throws Exception {
         this.mvc.perform(
-                get("/movies?q=harry")
+                get("/movies/?q=harry")
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", is(10)))
