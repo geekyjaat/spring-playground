@@ -13,28 +13,24 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    EmployeeDetailsService employeeDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.httpBasic();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 .mvcMatchers("/flights/**", "/math/**", "/lessons/**", "/movies/**", "/words/**")
                 .permitAll();
-        http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/admin/employees").hasRole("MANAGER")
-                .anyRequest().authenticated();
+        http.authorizeRequests().mvcMatchers("/admin/**").hasRole("MANAGER");
+        http.httpBasic();
+        http.authorizeRequests().anyRequest().authenticated();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .withUser("employee").password("my-employee-password").roles("EMPLOYEE")
-                .and()
-                .withUser("boss").password("my-boss-password").roles("MANAGER", "ADMIN");
+        auth.userDetailsService(employeeDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
 }

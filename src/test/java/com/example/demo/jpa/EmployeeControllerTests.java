@@ -43,7 +43,7 @@ public class EmployeeControllerTests {
     public void testAccessManager() throws Exception {
         when(employeeRepository.findAll()).thenReturn(Arrays.asList());
         RequestBuilder request = get("/admin/employees")
-                .with(user("boss").roles("ADMIN"));
+                .with(user("boss").roles("MANAGER"));
         mvc.perform(request).andExpect(status().isOk());
     }
 
@@ -55,7 +55,7 @@ public class EmployeeControllerTests {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "MANAGER")
     public void testAccessManagerMock() throws Exception {
         RequestBuilder request = get("/admin/employees");
         mvc.perform(request).andExpect(status().isOk());
