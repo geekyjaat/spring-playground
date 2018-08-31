@@ -4,7 +4,6 @@ import com.example.demo.entities.Lesson;
 import com.example.demo.entities.Views;
 import com.example.demo.repositories.LessonRepository;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,6 @@ public class LessonsController {
 
     private final LessonRepository repository;
 
-    @Autowired
     public LessonsController(LessonRepository repository) {
         this.repository = repository;
     }

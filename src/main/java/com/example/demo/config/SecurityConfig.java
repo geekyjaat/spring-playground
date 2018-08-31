@@ -18,8 +18,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().mvcMatchers("/flights/**", "/math/**", "/lessons/**", "/movies/**", "/words/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests()
+                .mvcMatchers("/flights/**", "/math/**", "/lessons/**", "/movies/**", "/words/**")
+                .permitAll();
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/employees").hasRole("MANAGER")
+                .anyRequest().authenticated();
     }
 
     @Autowired
@@ -29,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .withUser("employee").password("my-employee-password").roles("EMPLOYEE")
                 .and()
-                .withUser("boss").password("my-boss-password").roles("MANAGER");
+                .withUser("boss").password("my-boss-password").roles("MANAGER", "ADMIN");
     }
 
 }
