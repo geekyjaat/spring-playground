@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .mvcMatchers("/flights/**", "/math/**", "/lessons/**", "/movies/**", "/words/**", "/greeting")
+                .mvcMatchers("/flights/**", "/math/**", "/lessons/**", "/movies/**", "/words/**", "/albums/**", "/greeting")
                 .permitAll();
         http.authorizeRequests().mvcMatchers("/admin/**").hasRole("MANAGER");
         http.httpBasic();
